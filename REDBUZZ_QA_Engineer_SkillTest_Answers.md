@@ -228,6 +228,7 @@ I reviewed AI-generated output and made these changes:
 ## **BUG REPORT #1**
 
 **ID:** BUG-001
+
 **Title:** Last Name field cannot be filled on Checkout form, 
        blocking order completion — problem_user account
 
@@ -295,6 +296,7 @@ required", blocking the user from completing checkout.
 ## **BUG REPORT #2**
 
 **ID:** BUG-002
+
 **Title:** Checkout button remains active on empty cart,
            allowing user to proceed with no items — Cart page
 
