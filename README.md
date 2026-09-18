@@ -38,4 +38,4 @@ All AI output was reviewed and curated based on personal QA judgment.
 
 ## 📄 Full Answer
 
-👉 [View REDBUZZ_QA_Engineer_SkillTest_Answer.md](./REDBUZZ_QA_Engineer_SkillTest_Answer.md)
+👉 [View REDBUZZ_QA_Engineer_SkillTest_Answers.md](./REDBUZZ_QA_Engineer_SkillTest_Answers.md)
