@@ -228,7 +228,7 @@ I reviewed AI-generated output and made these changes:
 ## **BUG REPORT #1**
 
 **ID:** BUG-001
-Title:** Last Name field cannot be filled on Checkout form, 
+**Title:** Last Name field cannot be filled on Checkout form, 
        blocking order completion — problem_user account
 
 **Severity:** Critical
