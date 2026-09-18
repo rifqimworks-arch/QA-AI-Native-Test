@@ -236,7 +236,7 @@ I reviewed AI-generated output and made these changes:
 **Priority:** P1 (Cart data loss = revenue impact + user frustration)
 
 **Environment:** 
-- Browser: Chrome 125.0 on macOS
+- Browser: Chrome 125.0 on Windows
 - App: saucedemo.com
 - Account: problem_user (password: secret_sauce)
 
@@ -288,7 +288,7 @@ Verify if this is a known issue with the test account. If not, cart data should 
 **Priority:** P2 (Usability issue, but user can still access features)
 
 **Environment:**
-- Browser: Chrome 125.0 on macOS
+- Browser: Chrome 125.0 on Windows
 - App: saucedemo.com
 - Account: problem_user (password: secret_sauce)
 
@@ -344,7 +344,7 @@ Implement sidebar toggle (hamburger menu) or click-outside-to-close functionalit
 **Priority:** P2 (Data quality issue, may cause shipping problems downstream)
 
 **Environment:**
-- Browser: Chrome 125.0 on macOS
+- Browser: Chrome 125.0 on Windows
 - App: saucedemo.com
 - Account: standard_user (password: secret_sauce)
 
