@@ -228,108 +228,135 @@ I reviewed AI-generated output and made these changes:
 ## **BUG REPORT #1**
 
 **ID:** BUG-001
+Title:** Last Name field cannot be filled on Checkout form, 
+       blocking order completion — problem_user account
 
-**Title:** Cart items disappear after logout/login with "problem_user" account
+**Severity:** Critical
+**Priority:** P1 — Checkout flow completely blocked; 
+          user cannot complete purchase
 
-**Severity:** HIGH
-
-**Priority:** P1 (Cart data loss = revenue impact + user frustration)
-
-**Environment:** 
+**Environment:**
 - Browser: Chrome 125.0 on Windows
-- App: saucedemo.com
-- Account: problem_user (password: secret_sauce)
+- App: https://www.saucedemo.com
+- Account: problem_user / secret_sauce
 
 **Preconditions:**
 1. User logged in with "problem_user" account
-2. Store is loaded with product inventory
-3. User has added items to cart
+2. At least one product has been added to cart
+3. User navigates to Cart page
 
 **Steps to Reproduce:**
-1. Login with username "problem_user", password "secret_sauce"
-2. Click on any product (e.g., "Sauce Labs Backpack")
-3. Click "Add to Cart" button
-4. Verify item appears in cart (cart badge shows "1")
-5. Click account menu (top-right)
-6. Click "Logout"
-7. Verify login page is displayed
-8. Login again with same "problem_user" account
-9. Observe cart contents
+1. Login with username: problem_user, password: secret_sauce
+2. On product list, click "Add to Cart" on any product 
+   (e.g., Sauce Labs Backpack)
+3. Click the cart icon (top-right)
+4. Click "Checkout" button
+5. On "Checkout: Your Information" page, fill in First Name 
+   (e.g., "Dede Rifqi")
+6. Click on the "Last Name" field and attempt to type
+7. Fill in Zip/Postal Code (e.g., "17633")
+8. Click "Continue"
 
 **Expected Result:**
-Cart items should persist after logout/login (typical e-commerce behavior). User expects to see their previously added items.
+All form fields (First Name, Last Name, Zip/Postal Code) 
+are typeable. After filling all fields, clicking "Continue" 
+proceeds to the order summary page.
 
 **Actual Result:**
-Cart is EMPTY after re-login. All items that were added are gone. Cart badge shows "0".
+The "Last Name" field cannot be typed into — it remains 
+empty despite clicking and attempting to input text. 
+Clicking "Continue" shows error: "Error: Last Name is 
+required", blocking the user from completing checkout.
 
 **Evidence:**
-- Cart shows "1" before logout
-- Cart shows "0" after logout and re-login
-- LocalStorage persists session but not cart data (checked DevTools → Application → Storage)
+- Screenshot 1: Product list showing item added to cart 
+  (Remove button visible on Sauce Labs Backpack)
+- Screenshot 2: Checkout form loaded with all fields empty
+- Screenshot 3: First Name filled ("Dede Rifqi"), Last Name 
+  field highlighted red and empty (unfillable), Zip filled 
+  ("17633"), error banner shown: "Error: Last Name is required"
+- DevTools Console: No JS errors triggered on field click
+- DevTools Elements: Last Name input may have readonly 
+  or disabled attribute set for problem_user session
 
 **Notes:**
-- This is likely a "problem_user" test account with intentional bugs
-- Root cause: Cart data stored in session memory (not persisted to localStorage or server)
-- Impact: High - users lose shopping progress, may not complete purchase
+- Bug is reproducible specifically on "problem_user" account
+- Other accounts (standard_user) may not experience this issue
+- Root cause suspected: Last Name input field has a 
+  readonly/disabled attribute injected for problem_user
+- Impact: Entire checkout flow is broken — user cannot 
+  place any order
 
-**Recommendation:** 
-Verify if this is a known issue with the test account. If not, cart data should be persisted server-side or in localStorage with session recovery.
+**Recommendation:**
+- The “Last Name” field should be made editable so that users can fill it in; it shouldn't be filled in automatically with the “First Name” when that field is entered
 
 ---
 
 ## **BUG REPORT #2**
 
 **ID:** BUG-002
+**Title:** Checkout button remains active on empty cart,
+           allowing user to proceed with no items — Cart page
 
-**Title:** Sidebar menu remains open and blocks page content; no close button visible
-
-**Severity:** MEDIUM
-
-**Priority:** P2 (Usability issue, but user can still access features)
+**Severity:** High
+**Priority:** P2 — Misleading UX; user can initiate checkout
+              with empty cart, causing confusion and broken flow
 
 **Environment:**
 - Browser: Chrome 125.0 on Windows
-- App: saucedemo.com
-- Account: problem_user (password: secret_sauce)
+- App: https://www.saucedemo.com
+- Account: problem_user / secret_sauce
 
 **Preconditions:**
-1. User logged in to "problem_user" account
-2. Sidebar menu is visible on left side of screen
+1. User logged in with "problem_user" account
+2. At least one product has been added to cart
+3. User is on the Cart page (/cart.html)
 
 **Steps to Reproduce:**
-1. Login with "problem_user" account
-2. Open product list page
-3. Observe left sidebar is displayed
-4. Try to close sidebar by:
-   a. Clicking outside the sidebar (no effect)
-   b. Looking for X/close button (none visible)
-   c. Right-clicking for context menu (no help)
-5. Attempt to navigate to different page with sidebar still open
-6. Try to add product to cart while sidebar is open
+1. Login with username: problem_user, password: secret_sauce
+2. On product list, click "Add to Cart" on any product
+   (e.g., Sauce Labs Backpack)
+3. Click the cart icon (top-right) to open Cart page
+4. Verify item is listed in cart
+5. Click "Remove" button on the item
+6. Verify cart is now empty (no items listed, QTY and
+   Description columns are blank)
+7. Observe the "Checkout" button (bottom-right)
+8. Click "Checkout" button
 
 **Expected Result:**
-- Sidebar should have a close/hamburger button, OR
-- Clicking outside sidebar should close it, OR
-- Sidebar should auto-collapse on navigation
+When cart is empty, the "Checkout" button should be
+disabled or hidden. User should not be able to proceed
+to checkout without any items in cart.
 
 **Actual Result:**
-- Sidebar remains permanently open, covering ~25% of page width
-- No close button visible
-- Clicking outside sidebar has no effect
-- Sidebar persists across page navigation
-- Makes mobile/small-screen experience impossible
+"Checkout" button remains visible and fully clickable
+even after all items are removed. Cart page shows empty
+QTY and Description columns, but button is still active
+and navigates user to the Checkout: Your Information page.
 
 **Evidence:**
-- Screenshot: Sidebar covers product list
-- DevTools Inspector: Close button element not found in DOM (sidebar element has no X button or hamburger toggle)
+- Cart page is empty (no items listed under
+  QTY and Description columns)
+- "Checkout" button still visible and active
+  on bottom-right of empty cart page
+- DevTools Console: No errors thrown when clicking
+  Checkout on empty cart
+- DevTools Elements: Checkout button has no disabled
+  attribute or hidden class applied when cart is empty
 
 **Notes:**
-- This appears to be a "problem_user" intentional bug
-- UX Impact: Reduces viewable product area, may frustrate users on small screens
-- Could be fixed by: adding close button, adding backdrop click handler, or auto-closing on navigation
+- Bug is reproducible on "problem_user" account
+- Root cause suspected: No conditional rendering or
+  validation applied to Checkout button based on cart state
+- Impact: User can enter checkout flow with zero items,
+  leading to a broken and confusing order experience
+- Recommendation: Disable or hide Checkout button when
+  cart item count is 0; show helper text such as
+  "Your cart is empty. Add items to continue."
 
 **Recommendation:**
-Implement sidebar toggle (hamburger menu) or click-outside-to-close functionality.
+- Remove the “Checkout” button when an item is deleted, because in this workflow there should be no transaction; when this action is performed, the “Checkout” button should automatically disappear
 
 ---
 
