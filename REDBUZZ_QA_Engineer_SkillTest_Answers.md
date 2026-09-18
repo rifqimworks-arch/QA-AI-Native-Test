@@ -269,10 +269,10 @@ Clicking "Continue" shows error: "Error: Last Name is
 required", blocking the user from completing checkout.
 
 **Evidence:**
-- Screenshot 1: Product list showing item added to cart 
+- Product list showing item added to cart 
   (Remove button visible on Sauce Labs Backpack)
-- Screenshot 2: Checkout form loaded with all fields empty
-- Screenshot 3: First Name filled ("Dede Rifqi"), Last Name 
+- Checkout form loaded with all fields empty
+- First Name filled ("Dede Rifqi"), Last Name 
   field highlighted red and empty (unfillable), Zip filled 
   ("17633"), error banner shown: "Error: Last Name is required"
 - DevTools Console: No JS errors triggered on field click
@@ -288,7 +288,7 @@ required", blocking the user from completing checkout.
   place any order
 
 **Recommendation:**
-- The “Last Name” field should be made editable so that users can fill it in; it shouldn't be filled in automatically with the “First Name” when that field is entered
+- The “Last Name” field should be made editable so that users can fill it in, it shouldn't be filled in automatically with the “First Name” when that field is entered
 
 ---
 
