@@ -9,7 +9,7 @@
 ## 📁 Repository Structure
 
 ├── README.md              # This file  
-└── REDBUZZ_QA_Engineer_SkillTest_Answer.md          # Full skill test answers
+└── REDBUZZ_QA_Engineer_SkillTest_Answers.md          # Full skill test answers
 
 ---
 
